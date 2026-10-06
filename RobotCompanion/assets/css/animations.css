@@ -1,0 +1,153 @@
+/* animations.css — blink, bounce/wiggle, sleep/wake, look */
+
+.eye {
+    transform-origin: 50% 50%;
+}
+
+/* Blink: quick squash on the Y axis */
+@keyframes robot-blink {
+    0%   { transform: scaleY(1); }
+    45%  { transform: scaleY(0.05); }
+    100% { transform: scaleY(1); }
+}
+.eye.is-blinking {
+    animation: robot-blink 0.22s ease-in-out;
+}
+
+/* Slow blink: same motion, longer hold */
+@keyframes robot-blink-slow {
+    0%   { transform: scaleY(1); }
+    40%  { transform: scaleY(0.08); }
+    60%  { transform: scaleY(0.08); }
+    100% { transform: scaleY(1); }
+}
+.eye.is-blinking-slow {
+    animation: robot-blink-slow 0.6s ease-in-out;
+}
+
+/* Happy tap reaction: whole face bounces/wiggles */
+@keyframes robot-bounce {
+    0%   { transform: translateY(0) rotate(0deg); }
+    25%  { transform: translateY(-4%) rotate(-2deg); }
+    50%  { transform: translateY(0) rotate(0deg); }
+    75%  { transform: translateY(-2%) rotate(2deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+}
+.robot.is-bouncing {
+    animation: robot-bounce 0.5s ease-in-out;
+}
+
+/* Annoyed reaction: sharp, tight side-to-side shake — reads as irritation */
+@keyframes robot-shake {
+    0%   { transform: translateX(0) rotate(0deg); }
+    15%  { transform: translateX(-3%) rotate(-1.5deg); }
+    30%  { transform: translateX(3%) rotate(1.5deg); }
+    45%  { transform: translateX(-3%) rotate(-1.5deg); }
+    60%  { transform: translateX(3%) rotate(1.5deg); }
+    75%  { transform: translateX(-1.5%) rotate(-0.5deg); }
+    100% { transform: translateX(0) rotate(0deg); }
+}
+.robot.is-shaking {
+    animation: robot-shake 0.45s ease-in-out;
+}
+
+/* Look left / right / up / down: shift the eye group */
+.robot-face-plate {
+    transition: transform 0.35s ease;
+}
+.robot-face-plate.look-left  { transform: translateX(-6%); }
+.robot-face-plate.look-right { transform: translateX(6%); }
+.robot-face-plate.look-up    { transform: translateY(-6%); }
+.robot-face-plate.look-down  { transform: translateY(6%); }
+
+/* Sleep / wake transitions */
+@keyframes robot-sleep-in {
+    from { opacity: 1; }
+    to   { opacity: 0.85; }
+}
+.robot.is-sleeping .eye-shape,
+.robot.is-sleeping .eye-dot {
+    opacity: 0.55;
+}
+
+/* Sleepy idle: head lowers gently, as if drowsy */
+.robot {
+    transition: transform 0.4s ease;
+}
+.robot.anim-head-lower {
+    transform: translateY(6%) rotate(2.5deg);
+}
+
+/* Laughing idle: head bobs up and down */
+@keyframes robot-head-bob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25%      { transform: translateY(-5%) rotate(-2deg); }
+    50%      { transform: translateY(0) rotate(0deg); }
+    75%      { transform: translateY(-3%) rotate(2deg); }
+}
+.robot.anim-head-bob {
+    animation: robot-head-bob 0.7s ease-in-out infinite;
+}
+
+/* Shocked idle: a quick surprised "pop" */
+@keyframes robot-pop {
+    0%   { transform: scale(1); }
+    35%  { transform: scale(1.12); }
+    65%  { transform: scale(0.97); }
+    100% { transform: scale(1); }
+}
+.robot.anim-pop {
+    animation: robot-pop 0.5s ease-out;
+}
+
+/* Bored idle: a slow, sighing sway with a slight droop */
+@keyframes robot-bored-sway {
+    0%, 100% { transform: translateY(3%) rotate(-2.5deg); }
+    50%      { transform: translateY(3%) rotate(2.5deg); }
+}
+.robot.anim-bored-sway {
+    animation: robot-bored-sway 2.4s ease-in-out infinite;
+}
+
+/* Crying: tears repeatedly well up and fall, one eye slightly offset
+   from the other so they don't fall in perfect unison */
+@keyframes robot-tear-fall {
+    0%   { opacity: 0; transform: translateY(0) scale(0.5); }
+    12%  { opacity: 1; transform: translateY(4px) scale(1); }
+    75%  { opacity: 1; transform: translateY(48px) scale(1); }
+    100% { opacity: 0; transform: translateY(58px) scale(0.7); }
+}
+.robot.is-crying .eye-tear {
+    animation: robot-tear-fall 1.9s ease-in infinite;
+}
+.robot.is-crying .eye-right .eye-tear {
+    animation-delay: 0.5s;
+}
+
+/* Puppy eyes: a slow, subtle pulse to read as "pleading" */
+@keyframes robot-plead-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.75; }
+}
+.robot.is-pleading .eye-dot {
+    animation: robot-plead-pulse 1.6s ease-in-out infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .eye.is-blinking,
+    .eye.is-blinking-slow,
+    .robot.is-bouncing,
+    .robot.is-shaking,
+    .robot.anim-head-bob,
+    .robot.anim-pop,
+    .robot.anim-bored-sway,
+    .robot.is-pleading .eye-dot,
+    .robot.is-crying .eye-tear {
+        animation: none !important;
+    }
+    .robot-face-plate,
+    .robot {
+        transition: none !important;
+    }
+}

@@ -1,0 +1,212 @@
+/* robot.css — robot visual design (face, eyes, glow, housing) */
+
+:root {
+    --face-black: #0c0d0f;
+    --face-black-soft: #17181b;
+    --shell-orange: #f5a623;
+    --shell-orange-dark: #c97e0f;
+    --shell-orange-light: #ffc75e;
+    --eye-cyan: #33e6ff;
+    --eye-cyan-soft: #8ff5ff;
+    --eye-cyan-dim: #0d5866;
+    --ring-cyan: #4fd8ea;
+}
+
+.robot {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ---------- Ear housings ---------- */
+
+.robot-ear {
+    position: absolute;
+    top: 58%;
+    width: 20%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, var(--shell-orange-light), var(--shell-orange) 55%, var(--shell-orange-dark) 100%);
+    box-shadow:
+        inset 0 -4px 8px rgba(0, 0, 0, 0.35),
+        inset 0 3px 4px rgba(255, 255, 255, 0.35),
+        0 6px 14px rgba(0, 0, 0, 0.45);
+    z-index: 1;
+}
+
+.robot-ear--left { left: -6%; }
+.robot-ear--right { right: -6%; }
+
+.robot-ear-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 46%;
+    aspect-ratio: 1 / 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 3px solid var(--ring-cyan);
+    box-shadow: 0 0 6px var(--ring-cyan), inset 0 0 4px var(--ring-cyan);
+}
+
+/* ---------- Face plate ---------- */
+
+.robot-face {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 42% 42% 46% 46% / 50% 50% 42% 42%;
+    background: linear-gradient(155deg, var(--shell-orange-light) 0%, var(--shell-orange) 12%, var(--shell-orange-dark) 100%);
+    padding: 6%;
+    box-shadow:
+        inset 0 4px 10px rgba(255, 255, 255, 0.3),
+        inset 0 -10px 18px rgba(0, 0, 0, 0.35),
+        0 12px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.robot-face-plate {
+    position: relative;
+    width: 100%;
+    height: 82%;
+    border-radius: 40% 40% 46% 46% / 55% 55% 45% 45%;
+    background:
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.04), transparent 40%),
+        repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.015) 0px, rgba(255, 255, 255, 0.015) 1px, transparent 1px, transparent 3px),
+        radial-gradient(ellipse at 50% 40%, var(--face-black-soft) 0%, var(--face-black) 75%);
+    box-shadow:
+        inset 0 6px 16px rgba(0, 0, 0, 0.85),
+        inset 0 -4px 10px rgba(255, 255, 255, 0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6%;
+    padding: 0 8%;
+}
+
+/* ---------- Eyes ---------- */
+
+.eye {
+    flex: 0 1 40%;
+    width: 40%;
+    max-width: 40%;
+    min-width: 60px;
+    aspect-ratio: 5 / 3;
+    transition: transform 0.4s ease;
+}
+
+.eye svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.eye-right svg {
+    transform: scaleX(-1);
+}
+
+.eye-shape {
+    fill: none;
+    stroke: var(--eye-cyan);
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 6px var(--eye-cyan)) drop-shadow(0 0 16px var(--eye-cyan-dim));
+    transition: d 0.25s ease;
+}
+
+.eye-dot {
+    fill: var(--eye-cyan-soft);
+    filter: drop-shadow(0 0 8px var(--eye-cyan)) drop-shadow(0 0 18px var(--eye-cyan-dim));
+}
+
+.eye-tear {
+    fill: var(--eye-cyan-soft);
+    opacity: 0;
+    filter: drop-shadow(0 0 5px var(--eye-cyan));
+    transform-origin: 50% 0%;
+}
+
+/* Anime-style glossy highlight — used only for the "puppy eyes"
+   expression, hidden the rest of the time. */
+.eye-shine {
+    fill: #eafeff;
+    opacity: 0;
+    filter: drop-shadow(0 0 4px var(--eye-cyan-soft));
+    transition: opacity 0.3s ease;
+}
+
+.robot[data-expression="puppy"] .eye-shine {
+    opacity: 1;
+}
+
+/* Puppy eyes: black pupil with a glowing blue rim, not a solid blue fill */
+.robot[data-expression="puppy"] .eye-dot {
+    fill: #050708;
+    stroke: var(--eye-cyan);
+    stroke-width: 3;
+    filter: drop-shadow(0 0 8px var(--eye-cyan)) drop-shadow(0 0 18px var(--eye-cyan-dim));
+}
+
+.robot[data-expression="puppy"] .eye {
+    transform: scale(1.2);
+}
+
+/* ---------- Mobile: show only the eyes, full screen ---------- */
+
+/* ---------- Mobile: show only the eyes, full screen ---------- */
+/* Also applies to phones held in landscape (wide but short viewport),
+   which "max-width" alone wouldn't catch. */
+
+@media (max-width: 640px), (orientation: landscape) and (max-height: 500px) {
+    .robot {
+        max-width: none;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: auto;
+    }
+
+    .robot-ear {
+        display: none;
+    }
+
+    .robot-face {
+        border-radius: 0;
+        padding: 0;
+        box-shadow: none;
+        background: var(--face-black);
+    }
+
+    .robot-face-plate {
+        border-radius: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0 10%;
+        box-shadow: none;
+        background:
+            radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.04), transparent 40%),
+            radial-gradient(ellipse at 50% 40%, var(--face-black-soft) 0%, var(--face-black) 75%);
+    }
+
+    .eye {
+        max-width: 44%;
+    }
+}
+
+/* Landscape phones specifically: eyes have more width to work with */
+@media (orientation: landscape) and (max-height: 500px) {
+    .eye {
+        max-width: 32%;
+        aspect-ratio: 5 / 3;
+    }
+
+    .robot-face-plate {
+        padding: 0 6%;
+        gap: 4%;
+    }
+}

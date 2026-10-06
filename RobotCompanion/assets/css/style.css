@@ -1,0 +1,73 @@
+/* style.css — reset, layout, general application styling */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background: radial-gradient(circle at 50% 30%, #23262b 0%, #101114 70%, #0a0b0d 100%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    touch-action: none;
+    user-select: none;
+}
+
+#stage {
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 3 / 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8vw;
+}
+
+/* ---------- Fullscreen toggle ---------- */
+
+.fullscreen-btn {
+    position: fixed;
+    top: max(16px, env(safe-area-inset-top));
+    right: max(16px, env(safe-area-inset-right));
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(6px);
+    color: #33e6ff;
+    font-size: 18px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.fullscreen-btn:focus-visible {
+    outline: 2px solid #33e6ff;
+    outline-offset: 2px;
+}
+
+/* ---------- Mobile: robot fills the screen, eyes only ---------- */
+
+@media (max-width: 640px), (orientation: landscape) and (max-height: 500px) {
+    #stage {
+        max-width: none;
+        aspect-ratio: auto;
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+    }
+}
